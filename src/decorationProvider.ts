@@ -55,6 +55,7 @@ export default class DecorationProvider implements vscode.Disposable {
         while ((match = regexp1.exec(text))) {
             const line = this.activeEditor.document.lineAt(this.activeEditor.document.positionAt(match.index));
             const range = line.range.with({end: line.range.end.with({character: 0})});
+            const isIndented = /^ {2}|^\t/.test(line.text);
 
             const hoverMessage = new vscode.MarkdownString('[WAT1?!?!](command:vscode-decoration-range-behavior-weirdness.wat)');
             hoverMessage.isTrusted = true;
@@ -67,6 +68,9 @@ export default class DecorationProvider implements vscode.Disposable {
             decoration.renderOptions = {
                 before: {
                     contentIconPath: vscode.Uri.joinPath(this.context.extensionUri, 'assets/star.svg'),
+                    margin: isIndented ? '0 -1em 0 0' : '0 0.2em 0 0',
+                    height: '1em',
+                    width: '1em',
                 }
             };
 
@@ -77,6 +81,7 @@ export default class DecorationProvider implements vscode.Disposable {
         while ((match = regexp2.exec(text))) {
             const line = this.activeEditor.document.lineAt(this.activeEditor.document.positionAt(match.index));
             const range = line.range.with(line.range.start.with({character: line.firstNonWhitespaceCharacterIndex}), line.range.end.with({character: line.firstNonWhitespaceCharacterIndex}));
+            const isIndented = /^ {2}|^\t/.test(line.text);
 
             const hoverMessage = new vscode.MarkdownString('[WAT2?!?!](command:vscode-decoration-range-behavior-weirdness.wat)');
             hoverMessage.isTrusted = true;
@@ -89,6 +94,9 @@ export default class DecorationProvider implements vscode.Disposable {
             decoration.renderOptions = {
                 before: {
                     contentIconPath: vscode.Uri.joinPath(this.context.extensionUri, 'assets/star.svg'),
+                    margin: isIndented ? '0 -1em 0 0' : '0 0.2em 0 0',
+                    height: '1em',
+                    width: '1em',
                 }
             };
 
